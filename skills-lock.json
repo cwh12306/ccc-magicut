@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "electron-forge": {
+      "source": "hairyf/skills",
+      "sourceType": "github",
+      "skillPath": "skills/electron-forge/SKILL.md",
+      "computedHash": "3374a4d6bb73403841b437cc546efa1baa952034c0a8f2666fa260d52e97e166"
+    },
+    "quality-code": {
+      "source": "rhyssullivan/skills",
+      "sourceType": "github",
+      "skillPath": "skills/quality-code/SKILL.md",
+      "computedHash": "327fc074c121d259ff0c8d7a031dd4f63877d490169cf8d91a3bb30f4a017311"
+    },
+    "tailwind-v4": {
+      "source": "existential-birds/beagle",
+      "sourceType": "github",
+      "skillPath": "plugins/beagle-react/skills/tailwind-v4/SKILL.md",
+      "computedHash": "0ca68c159f03933cedc4063f60b27a508562e54c237d858fe3047aab8bcb7b59"
+    },
+    "vercel-composition-patterns": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/composition-patterns/SKILL.md",
+      "computedHash": "f98931159fa9c7fed043bcd18a891a46dcf89ababa38df13a4c5b7b30dc0ce07"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "3219a1944e404ffc14d1d9d6aef6dd2e3855b81387ee0a044ccbfe14d34c2357"
+    },
+    "web-accessibility": {
+      "source": "akillness/oh-my-skills",
+      "sourceType": "github",
+      "skillPath": ".agent-skills/web-accessibility/SKILL.md",
+      "computedHash": "4bb4cc9a3b6577d2dfc0604cf2236b94c91e3d3e336cf6626b1165706200387e"
+    }
+  }
+}
