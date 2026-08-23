@@ -31,6 +31,7 @@ jspm_packages/
 assets/
 output/
 .agents/
+.reposkillopt/
 
 # TypeScript cache
 *.tsbuildinfo
