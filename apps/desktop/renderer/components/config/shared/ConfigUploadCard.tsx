@@ -1,4 +1,3 @@
-
 import type { VoiceUploadCard } from '../../../types/config';
 import { cx } from '../../../utils/classNames';
 import { Icon } from '../../Icon';
@@ -22,7 +21,7 @@ export const ConfigUploadCard = ({
             disabled={disabled}
             onClick={onClick}
             className={cx(
-                'relative h-[72px] w-[260px] rounded-[12px] border border-[#3A3F49] bg-[#101216] px-[14px] py-[13px] text-left transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#262B33]',
+                'relative h-[72px] min-w-0 w-full rounded-[12px] border border-[#3A3F49] bg-[#101216] px-[14px] py-[13px] text-left transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#262B33]',
                 disabled
                     ? 'cursor-not-allowed opacity-55 hover:translate-y-0 hover:bg-[#101216]'
                     : 'cursor-pointer',

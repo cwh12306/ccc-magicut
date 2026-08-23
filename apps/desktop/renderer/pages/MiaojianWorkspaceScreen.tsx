@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from 'react';
 
 import { defaultVideoAgentCanvas } from '../../shared/video-agent';
@@ -97,7 +96,10 @@ export const MiaojianWorkspaceScreen = ({
         useState<WorkspaceProject[]>(initialProjects);
 
     const loadWorkspaceProjects = useCallback(async () => {
-        if (typeof window === 'undefined' || !window.miaojianAPI?.videoProject) {
+        if (
+            typeof window === 'undefined' ||
+            !window.miaojianAPI?.videoProject
+        ) {
             return;
         }
 
@@ -134,6 +136,14 @@ export const MiaojianWorkspaceScreen = ({
 
     const workspaceNavItems = getWorkspaceNavItems(activeView);
 
+    const handleAssetDirectorySelect = async () => {
+        if (typeof window === 'undefined' || !window.miaojianAPI?.videoAgent) {
+            return undefined;
+        }
+
+        return window.miaojianAPI.videoAgent.selectAssetDirectory();
+    };
+
     const handleAgentSubmit = async (input: CreateAgentSubmitInput) => {
         setActiveView('create');
         setIsAgentStarting(true);
@@ -166,7 +176,10 @@ export const MiaojianWorkspaceScreen = ({
     const handleProjectDeleteConfirm = async () => {
         if (!projectPendingDeletion) return;
 
-        if (typeof window === 'undefined' || !window.miaojianAPI?.videoProject) {
+        if (
+            typeof window === 'undefined' ||
+            !window.miaojianAPI?.videoProject
+        ) {
             setProjectDeleteErrorMessage('项目删除接口尚未就绪');
             return;
         }
@@ -223,6 +236,7 @@ export const MiaojianWorkspaceScreen = ({
                         <CreateMainContent
                             content={createPageContent}
                             isAgentBusy={isAgentStarting}
+                            onSelectAssetDirectory={handleAssetDirectorySelect}
                             onAgentSubmit={(input) => {
                                 void handleAgentSubmit(input);
                             }}

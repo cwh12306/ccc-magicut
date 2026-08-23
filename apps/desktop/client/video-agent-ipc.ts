@@ -1,4 +1,3 @@
-
 import { randomUUID } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -67,6 +66,10 @@ type UnsequencedDesktopAgentRunEvent = DesktopAgentRunEvent extends infer Event
     : never;
 
 export type VideoAgentEventEmitter = (event: DesktopAgentRunEvent) => void;
+
+export type VideoAgentAssetDirectorySelector = () => Promise<
+    string | undefined
+>;
 
 export type VideoAgentIpcController = {
     approve: (
@@ -1014,10 +1017,12 @@ export const createLangGraphVideoAgentController = ({
 
 export const registerVideoAgentIpc = ({
     controller,
-    ipcMain
+    ipcMain,
+    selectAssetDirectory
 }: {
     controller: VideoAgentIpcController;
     ipcMain: VideoAgentIpcMain;
+    selectAssetDirectory: VideoAgentAssetDirectorySelector;
 }) => {
     const emitToRenderer =
         (event: VideoAgentIpcEvent): VideoAgentEventEmitter =>
@@ -1048,5 +1053,8 @@ export const registerVideoAgentIpc = ({
             input as VideoAgentRegenerateVoicesInput,
             emitToRenderer(event)
         )
+    );
+    ipcMain.handle(videoAgentIpcChannels.selectAssetDirectory, () =>
+        selectAssetDirectory()
     );
 };

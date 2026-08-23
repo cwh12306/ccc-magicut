@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from 'react';
 
 import { voiceConfigPanel } from '../../../constants/config';
@@ -226,7 +225,10 @@ export const VoiceConfigPanel = ({
                     className="text-left"
                 />
 
-                <div className="min-h-0 flex-1 overflow-y-auto pb-3">
+                <div
+                    data-config-scroll-region="voice"
+                    className="editor-panel-scrollbar min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain pb-3 pr-2"
+                >
                     <ConfigSectionShell className="mt-[14px]">
                         <ConfigHeader
                             title={voiceConfigPanel.section.title}

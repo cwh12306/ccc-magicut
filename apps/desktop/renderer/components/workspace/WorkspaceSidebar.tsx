@@ -1,4 +1,3 @@
-
 import type {
     WorkspaceBrand,
     WorkspaceNavItem,
@@ -58,11 +57,11 @@ export const WorkspaceSidebar = ({
             <div className="pointer-events-none absolute left-[33px] top-[542px] z-[2] h-1 w-[196px] -rotate-[7deg] rounded-full bg-[linear-gradient(90deg,transparent_0%,#BF40FFCC_38%,#FF4DA6D9_62%,transparent_100%)] opacity-80 blur-[18px]" />
             <div className="absolute left-[20px] top-[30px] z-[3] flex w-[230px] items-center gap-3">
                 <WorkspaceBrandMark label={brand.name} />
-                <div className="grid gap-0.5">
+                <div className="grid gap-1">
                     <h1 className="text-[24px] font-[700] leading-none text-[#F5F7FA]">
                         {brand.name}
                     </h1>
-                    <p className="font-['Geist'] text-[11px] font-normal leading-none text-[#6F7784]">
+                    <p className="font-['Geist'] text-[11px] font-normal leading-[1.25] tracking-[0.025em] text-[#6F7784]">
                         {brand.description}
                     </p>
                 </div>

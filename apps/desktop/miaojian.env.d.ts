@@ -71,6 +71,7 @@ declare global {
                 regenerateVoices: (
                     input: VideoAgentRegenerateVoicesInput
                 ) => Promise<VideoAgentOperationResult<VideoAgentResultData>>;
+                selectAssetDirectory: () => Promise<string | undefined>;
                 start: (
                     input: VideoAgentStartInput
                 ) => Promise<VideoAgentOperationResult<VideoAgentResultData>>;

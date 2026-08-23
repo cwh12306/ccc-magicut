@@ -1,4 +1,3 @@
-
 import type { CreateAgentSubmitInput } from '../../types/create';
 import type { CreatePageContent } from '../../types/create';
 import SoftAurora from '../reactbits/SoftAurora/SoftAurora';
@@ -9,11 +8,13 @@ import { CreateInputPanel } from './CreateInputPanel';
 export const CreateMainContent = ({
     content,
     isAgentBusy = false,
-    onAgentSubmit
+    onAgentSubmit,
+    onSelectAssetDirectory
 }: {
     content: CreatePageContent;
     isAgentBusy?: boolean;
     onAgentSubmit?: (input: CreateAgentSubmitInput) => void;
+    onSelectAssetDirectory?: () => Promise<string | undefined>;
 }) => {
     return (
         <section className="relative h-full min-w-0 overflow-hidden bg-[#090A0E]">
@@ -45,6 +46,7 @@ export const CreateMainContent = ({
                     <CreateInputPanel
                         content={content}
                         disabled={isAgentBusy}
+                        onSelectAssetDirectory={onSelectAssetDirectory}
                         onSubmit={onAgentSubmit}
                     />
                 </div>

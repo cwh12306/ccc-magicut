@@ -1,4 +1,3 @@
-
 import type { MouseEvent } from 'react';
 
 import type { VoicePresetCard } from '../../../types/config';
@@ -23,7 +22,7 @@ export const ConfigSelectableCard = ({
         <div
             data-voice-preview={card.title}
             className={cx(
-                'flex h-[54px] w-[126px] items-start justify-between rounded-[10px] border px-3 py-2 text-left',
+                'flex h-[54px] min-w-0 w-full items-start justify-between rounded-[10px] border px-3 py-2 text-left',
                 card.selected
                     ? 'border-[#F05F73] bg-[#f0607333]'
                     : 'border-[#2A2F38] bg-[#13161B]'

@@ -1,4 +1,3 @@
-
 import { type KeyboardEvent, useState } from 'react';
 
 import { visualConfigPanel } from '../../../constants/config';
@@ -117,9 +116,11 @@ export const VisualConfigPanel = ({
 
     return (
         <aside className="flex h-full min-h-0 w-[320px] flex-col overflow-hidden bg-[#111214] p-[16px]">
-            <div className="min-h-0 overflow-y-auto pb-3">
-                <div className="mb-[18px] text-center font-['Geist'] text-[13px] font-semibold text-[#6F7784]">
-                </div>
+            <div
+                data-config-scroll-region="visual"
+                className="editor-panel-scrollbar min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain pb-3 pr-2"
+            >
+                <div className="mb-[18px] text-center font-['Geist'] text-[13px] font-semibold text-[#6F7784]"></div>
 
                 <section className="mx-2 rounded-[18px] bg-[#252628] p-[12px_14px]">
                     <div className="grid gap-1.5">

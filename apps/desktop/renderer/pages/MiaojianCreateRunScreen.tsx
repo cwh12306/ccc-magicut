@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -48,12 +47,15 @@ export const MiaojianCreateRunScreen = ({ runId }: { runId?: string }) => {
             <WindowDragRegion />
             <section
                 data-create-run-chat-shell="true"
-                className="relative mx-auto flex h-full w-[860px] flex-col"
+                className="relative mx-auto flex h-full w-[888px] flex-col"
             >
-                <time className="mt-6 shrink-0 text-center text-[12px] font-[650] leading-none text-[#6F7784]">
+                <time className="mt-6 w-[860px] shrink-0 text-center text-[12px] font-[650] leading-none text-[#6F7784]">
                     {formatHeaderTime()}
                 </time>
-                <div className="min-h-0 flex-1 overflow-y-auto pb-[14px] pt-[18px]">
+                <div
+                    data-create-run-scroll-region="true"
+                    className="agent-run-scrollbar min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain pb-[14px] pr-[18px] pt-[18px]"
+                >
                     <AgentConversationTimeline
                         onApprove={handleApprove}
                         onCancel={handleCancel}

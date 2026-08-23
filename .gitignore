@@ -33,6 +33,13 @@ output/
 .agents/
 .reposkillopt/
 
+# Generated video export binaries (restored from ffmpeg-ffprobe-static)
+apps/desktop/bin/**/ffmpeg
+apps/desktop/bin/**/ffprobe
+apps/desktop/bin/**/ffmpeg.exe
+apps/desktop/bin/**/ffprobe.exe
+apps/desktop/bin/**/LICENSE.txt
+
 # TypeScript cache
 *.tsbuildinfo
 

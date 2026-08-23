@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs';
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -439,7 +438,7 @@ describe('create agent flow', () => {
         });
     });
 
-    it('wires the create tab into the agent run store and local asset directory input', () => {
+    it('wires the create tab into the agent run store and native asset directory picker', () => {
         const inputPanelSource = readFileSync(
             resolve(
                 __dirname,
@@ -462,8 +461,12 @@ describe('create agent flow', () => {
         expect(mainContentSource).not.toContain('CreateAgentProgress');
         expect(workspaceSource).toContain('startAgentRun');
         expect(workspaceSource).toContain('/create/runs/');
+        expect(workspaceSource).toContain('selectAssetDirectory');
+        expect(mainContentSource).toContain('onSelectAssetDirectory');
         expect(inputPanelSource).toContain('本地素材目录');
-        expect(inputPanelSource).toContain('粘贴本地视频素材目录');
+        expect(inputPanelSource).toContain('点击选择本地视频素材目录');
+        expect(inputPanelSource).toContain('data-asset-directory-selected');
+        expect(inputPanelSource).not.toContain('<input');
         expect(inputPanelSource).toContain('data-agent-start-button');
     });
 
@@ -637,11 +640,21 @@ describe('create agent flow', () => {
                 createRunId: () => 'run_test',
                 now: () => '2026-06-23T01:00:00.000Z'
             }),
-            ipcMain
+            ipcMain,
+            selectAssetDirectory: async () => '/Users/ccc/Videos/miaojian'
         });
 
         expect(handlers.has(videoAgentIpcChannels.regenerateScene)).toBe(true);
         expect(handlers.has(videoAgentIpcChannels.regenerateVoices)).toBe(true);
+        expect(handlers.has(videoAgentIpcChannels.selectAssetDirectory)).toBe(
+            true
+        );
+        await expect(
+            handlers.get(videoAgentIpcChannels.selectAssetDirectory)?.(
+                { sender },
+                undefined
+            )
+        ).resolves.toBe('/Users/ccc/Videos/miaojian');
 
         const missingDirectory = await handlers.get(
             videoAgentIpcChannels.start
@@ -1332,12 +1345,19 @@ describe('create agent flow', () => {
             resolve(__dirname, '../client/video-project-ipc.ts'),
             'utf8'
         );
+        const mainSource = readFileSync(
+            resolve(__dirname, '../client/main.ts'),
+            'utf8'
+        );
 
         expect(preloadSource).not.toContain('./video-agent-ipc');
         expect(preloadSource).not.toContain('./video-project-ipc');
         expect(preloadSource).toContain('../shared/video-agent-channels');
         expect(preloadSource).toContain('../shared/video-project-channels');
         expect(preloadSource).toContain('regenerateScene');
+        expect(preloadSource).toContain('selectAssetDirectory');
+        expect(mainSource).toContain("properties: ['openDirectory']");
+        expect(mainSource).toContain("title: '选择本地素材目录'");
         expect(videoAgentIpcSource).toContain('node:crypto');
         expect(videoProjectIpcSource).toContain('node:path');
     });

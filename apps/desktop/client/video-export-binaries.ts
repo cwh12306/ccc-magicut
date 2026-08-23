@@ -1,4 +1,3 @@
-
 import path from 'node:path';
 
 export type VideoExportBinaryPlatform = typeof process.platform;
@@ -29,6 +28,9 @@ const toExecutableName = ({
     platform: VideoExportBinaryPlatform;
 }) => (platform === 'win32' ? `${name}.exe` : name);
 
+const getPlatformPath = (platform: VideoExportBinaryPlatform) =>
+    platform === 'win32' ? path.win32 : path.posix;
+
 export const resolveVideoExportBinDirectory = ({
     appPath,
     isPackaged,
@@ -39,23 +41,28 @@ export const resolveVideoExportBinDirectory = ({
         throw new Error(`Unsupported FFmpeg platform: ${platform}`);
     }
 
-    return path.join(isPackaged ? resourcesPath : appPath, 'bin', platform);
+    return getPlatformPath(platform).join(
+        isPackaged ? resourcesPath : appPath,
+        'bin',
+        platform
+    );
 };
 
 export const resolveVideoExportBinaries = (
     input: ResolveVideoExportBinariesInput
 ): VideoExportBinaries => {
     const binDirectory = resolveVideoExportBinDirectory(input);
+    const platformPath = getPlatformPath(input.platform);
 
     return {
-        ffmpegPath: path.join(
+        ffmpegPath: platformPath.join(
             binDirectory,
             toExecutableName({
                 name: 'ffmpeg',
                 platform: input.platform
             })
         ),
-        ffprobePath: path.join(
+        ffprobePath: platformPath.join(
             binDirectory,
             toExecutableName({
                 name: 'ffprobe',

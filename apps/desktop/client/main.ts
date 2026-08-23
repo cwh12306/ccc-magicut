@@ -1,4 +1,3 @@
-
 import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import started from 'electron-squirrel-startup';
 import path from 'node:path';
@@ -86,7 +85,15 @@ app.whenReady().then(() => {
             store: videoProjectStore,
             voiceOutputDirectory: path.join(agentRunDirectory, 'voices')
         }),
-        ipcMain
+        ipcMain,
+        selectAssetDirectory: async () => {
+            const result = await dialog.showOpenDialog({
+                properties: ['openDirectory'],
+                title: '选择本地素材目录'
+            });
+
+            return result.canceled ? undefined : result.filePaths[0];
+        }
     });
     createWindow();
 

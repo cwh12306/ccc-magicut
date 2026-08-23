@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 import {
@@ -174,23 +173,20 @@ const MusicRecommendationCard = ({
                 titleClassName="text-[14px] font-[800] leading-none"
             />
 
-            <div className="mt-[12px] min-w-0">
-                <div className="w-full min-w-0 overflow-x-auto">
-                    <div className="flex w-max min-w-full flex-nowrap gap-1 py-2">
-                        {musicConfigPanel.recommendations.categories.map(
-                            (category) => (
-                                <MusicCategoryChip
-                                    key={category.label}
-                                    active={category.label === selectedCategory}
-                                    label={category.label}
-                                    onClick={() => {
-                                        onCategorySelect?.(category.label);
-                                    }}
-                                />
-                            )
-                        )}
-                    </div>
-                </div>
+            <div
+                data-music-category-list="true"
+                className="mt-[12px] flex min-w-0 flex-wrap gap-1.5 py-2"
+            >
+                {musicConfigPanel.recommendations.categories.map((category) => (
+                    <MusicCategoryChip
+                        key={category.label}
+                        active={category.label === selectedCategory}
+                        label={category.label}
+                        onClick={() => {
+                            onCategorySelect?.(category.label);
+                        }}
+                    />
+                ))}
             </div>
 
             <div className="mt-[10px] grid gap-2">
@@ -262,7 +258,10 @@ export const MusicConfigPanel = ({
                     />
                 </div>
 
-                <div className="min-h-0 flex-1 overflow-y-auto pb-3">
+                <div
+                    data-config-scroll-region="music"
+                    className="editor-panel-scrollbar min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain pb-3 pr-2"
+                >
                     <div className="mt-[14px] flex flex-col gap-[12px]">
                         <MusicCurrentCard track={selectedTrack} />
 

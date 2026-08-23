@@ -1,10 +1,10 @@
-
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createElement, isValidElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
+import { isCreateActionDisabled } from '../renderer/components/create/CreateInputPanel';
 import { VoiceSelect } from '../renderer/components/create/VoiceSelect';
 import { createPageContent } from '../renderer/constants/create';
 import { appRoutes } from '../renderer/router';
@@ -79,8 +79,14 @@ describe('MiaojianCreateScreen', () => {
         expect(html).not.toContain('<select');
         expect(html).toContain('create-voice-select-trigger');
         expect(html).toContain('温婉学姐');
+        expect(html).toContain('aria-label="选择本地素材目录"');
+        expect(html).toContain('点击选择本地视频素材目录');
+        expect(html).toContain('data-create-action-row="true"');
         expect(html).toContain('创建');
-        expect(html).toContain('right-[32px] top-[313px]');
+        expect(html).toContain('bottom-[32px]');
+        expect(html).toContain('items-center');
+        expect(html).toContain('disabled=""');
+        expect(html).not.toContain('<input');
         expect(html).toContain('textarea');
         expect(inputPanelSource).toContain(
             'text-[22px] font-normal leading-[1.35]'
@@ -98,6 +104,53 @@ describe('MiaojianCreateScreen', () => {
         expect(softAuroraSource).toContain('float auroraGlow');
         expect(softAuroraSource).toContain('uBandHeight');
         expect(softAuroraSource).toContain('uMouseInfluence');
+    });
+
+    it('only enables creation after a local asset directory is selected', () => {
+        expect(
+            isCreateActionDisabled({
+                disabled: false,
+                isSelectingAssetDirectory: false,
+                sourceAssetDirectory: ''
+            })
+        ).toBe(true);
+        expect(
+            isCreateActionDisabled({
+                disabled: false,
+                isSelectingAssetDirectory: false,
+                sourceAssetDirectory: '   '
+            })
+        ).toBe(true);
+        expect(
+            isCreateActionDisabled({
+                disabled: false,
+                isSelectingAssetDirectory: false,
+                sourceAssetDirectory: 'C:\\Videos\\miaojian'
+            })
+        ).toBe(false);
+        expect(
+            isCreateActionDisabled({
+                disabled: true,
+                isSelectingAssetDirectory: false,
+                sourceAssetDirectory: 'C:\\Videos\\miaojian'
+            })
+        ).toBe(true);
+        expect(
+            isCreateActionDisabled({
+                disabled: false,
+                isSelectingAssetDirectory: true,
+                sourceAssetDirectory: 'C:\\Videos\\miaojian'
+            })
+        ).toBe(true);
+    });
+
+    it('gives the brand subtitle a little more breathing room', () => {
+        const rootRoute = appRoutes.find((route) => route.path === '/');
+        const html = renderToStaticMarkup(rootRoute?.element);
+
+        expect(html).toContain('grid gap-1');
+        expect(html).toContain('leading-[1.25]');
+        expect(html).toContain('tracking-[0.025em]');
     });
 
     it('renders the custom voice menu from the Pencil dropdown frame', () => {

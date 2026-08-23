@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react';
 
 import { cx } from '../../../utils/classNames';
@@ -28,8 +27,13 @@ export const ConfigTrackSlider = ({
             : undefined;
 
     return (
-        <div className="flex w-full justify-end">
-            <div className={cx('relative h-4 shrink-0', trackWidthClassName)}>
+        <div className="flex min-w-0 w-full justify-end">
+            <div
+                className={cx(
+                    'relative h-4 max-w-full shrink-0',
+                    trackWidthClassName
+                )}
+            >
                 <span className="absolute left-0 top-[5px] h-[6px] w-full rounded-full bg-[#30343C]" />
                 <span
                     className={cx(

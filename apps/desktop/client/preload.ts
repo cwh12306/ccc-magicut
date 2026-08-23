@@ -1,4 +1,3 @@
-
 import { contextBridge, ipcRenderer, type IpcRendererEvent } from 'electron';
 
 import type { VideoProject } from '@miaojian-magicut/video-project';
@@ -83,6 +82,8 @@ contextBridge.exposeInMainWorld('miaojianAPI', {
             ipcRenderer.invoke(videoAgentIpcChannels.regenerateScene, input),
         regenerateVoices: async (input: VideoAgentRegenerateVoicesInput) =>
             ipcRenderer.invoke(videoAgentIpcChannels.regenerateVoices, input),
+        selectAssetDirectory: async () =>
+            ipcRenderer.invoke(videoAgentIpcChannels.selectAssetDirectory),
         start: async (input: VideoAgentStartInput) =>
             ipcRenderer.invoke(videoAgentIpcChannels.start, input)
     },

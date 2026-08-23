@@ -1,4 +1,3 @@
-
 import { useEffect, useId, useRef, useState } from 'react';
 
 import type { CreateVoiceOption } from '../../types/create';
@@ -60,7 +59,7 @@ export const VoiceSelect = ({
     };
 
     return (
-        <div ref={containerRef} className="absolute left-[42px] top-[300px]">
+        <div ref={containerRef} className="relative shrink-0">
             <button
                 type="button"
                 aria-controls={listboxId}

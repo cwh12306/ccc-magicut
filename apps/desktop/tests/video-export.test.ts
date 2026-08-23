@@ -1,4 +1,3 @@
-
 import { readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -190,8 +189,18 @@ describe('video export', () => {
                 resourcesPath: '/Applications/miaojian.app/Contents/Resources'
             })
         ).toEqual({
-            ffmpegPath: '/repo/apps/desktop/bin/darwin/ffmpeg',
-            ffprobePath: '/repo/apps/desktop/bin/darwin/ffprobe'
+            ffmpegPath: path.posix.join(
+                '/repo/apps/desktop',
+                'bin',
+                'darwin',
+                'ffmpeg'
+            ),
+            ffprobePath: path.posix.join(
+                '/repo/apps/desktop',
+                'bin',
+                'darwin',
+                'ffprobe'
+            )
         });
 
         expect(
@@ -202,10 +211,18 @@ describe('video export', () => {
                 resourcesPath: 'C:/Program Files/miaojian/resources'
             })
         ).toEqual({
-            ffmpegPath:
-                'C:/Program Files/miaojian/resources/bin/win32/ffmpeg.exe',
-            ffprobePath:
-                'C:/Program Files/miaojian/resources/bin/win32/ffprobe.exe'
+            ffmpegPath: path.win32.join(
+                'C:/Program Files/miaojian/resources',
+                'bin',
+                'win32',
+                'ffmpeg.exe'
+            ),
+            ffprobePath: path.win32.join(
+                'C:/Program Files/miaojian/resources',
+                'bin',
+                'win32',
+                'ffprobe.exe'
+            )
         });
     });
 
@@ -247,7 +264,11 @@ describe('video export', () => {
                 '-stream_loop',
                 '-1',
                 '-i',
-                '/repo/apps/desktop/renderer/assets/song/Paris 悬疑电影解说.m4a',
+                path.join(
+                    '/repo/apps/desktop',
+                    'renderer/assets/song',
+                    'Paris 悬疑电影解说.m4a'
+                ),
                 '-map',
                 '[vout]',
                 '-map',
@@ -262,7 +283,15 @@ describe('video export', () => {
         expect(command.filterComplex).toContain('concat=n=1:v=1:a=0');
         expect(command.filterComplex).toContain('tpad=stop_mode=clone');
         expect(command.filterComplex).toContain('subtitles=');
-        expect(command.filterComplex).toContain('FontName=PingFang SC');
+        expect(command.filterComplex).toContain(
+            `FontName=${
+                process.platform === 'win32'
+                    ? 'Microsoft YaHei'
+                    : process.platform === 'darwin'
+                      ? 'PingFang SC'
+                      : 'Noto Sans CJK SC'
+            }`
+        );
         expect(command.filterComplex).toContain('FontSize=24');
         expect(command.filterComplex).toContain('Bold=1');
         expect(command.filterComplex).toContain('Outline=1.5');
@@ -697,11 +726,33 @@ describe('video export', () => {
             path.resolve(__dirname, '../forge.config.ts'),
             'utf8'
         );
+        const packageSource = await readFile(
+            path.resolve(__dirname, '../package.json'),
+            'utf8'
+        );
+        const syncScriptSource = await readFile(
+            path.resolve(
+                __dirname,
+                '../scripts/sync-video-export-binaries.mjs'
+            ),
+            'utf8'
+        );
+        const workspaceSource = await readFile(
+            path.resolve(__dirname, '../../../pnpm-workspace.yaml'),
+            'utf8'
+        );
 
         expect(forgeSource).toContain('extraResource');
         expect(forgeSource).toContain("'bin'");
         expect(forgeSource).toContain("'renderer/assets/song'");
         expect(forgeSource).toContain("['darwin', 'win32']");
         expect(forgeSource).toContain('prune: false');
+        expect(packageSource).toContain('ffmpeg-ffprobe-static');
+        expect(packageSource).toContain('sync:video-export-binaries');
+        expect(packageSource).toContain('postinstall');
+        expect(syncScriptSource).toContain("'bin', process.platform");
+        expect(syncScriptSource).toContain("name: 'ffmpeg'");
+        expect(syncScriptSource).toContain("name: 'ffprobe'");
+        expect(workspaceSource).toContain('ffmpeg-ffprobe-static: true');
     });
 });

@@ -1,4 +1,5 @@
-
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
@@ -47,11 +48,17 @@ describe('create run message page', () => {
         expect(html).toContain('[app-region:drag]');
         expect(html).toContain('bg-[#08090D]');
         expect(html).toContain('data-create-run-chat-shell="true"');
+        expect(html).toContain('data-create-run-scroll-region="true"');
         expect(html).toContain('data-create-run-chat-body="true"');
         expect(html).toContain('data-agent-stage-nav="true"');
         expect(html).toContain('fixed right-8 top-[88px]');
         expect(html).not.toContain('w-[1168px]');
+        expect(html).toContain('w-[888px]');
         expect(html).toContain('w-[860px]');
+        expect(html).toContain('agent-run-scrollbar');
+        expect(html).toContain('overflow-x-hidden');
+        expect(html).toContain('overflow-y-auto');
+        expect(html).toContain('pr-[18px]');
         expect(html).toContain('gap-[14px]');
         expect(html).not.toContain('智能创作执行中');
         expect(html).not.toContain('继续补充创作要求，或要求智能体修改分镜');
@@ -61,6 +68,23 @@ describe('create run message page', () => {
         expect(html).not.toContain('输入你的回复');
         expect(html).not.toContain('aria-label="发送"');
         expect(html).not.toContain('CreateAgentProgress');
+    });
+
+    it('uses a vertical-only themed scrollbar with a stable text gutter', () => {
+        const stylesheet = readFileSync(
+            resolve(__dirname, '../renderer/index.css'),
+            'utf8'
+        );
+
+        expect(stylesheet).toContain('.agent-run-scrollbar');
+        expect(stylesheet).toContain('scrollbar-gutter: stable');
+        expect(stylesheet).toContain('scrollbar-width: thin');
+        expect(stylesheet).toContain(
+            '.agent-run-scrollbar::-webkit-scrollbar-thumb'
+        );
+        expect(stylesheet).toContain('width: 10px');
+        expect(stylesheet).toContain('height: 0');
+        expect(stylesheet).toContain('min-height: 52px');
     });
 
     it('aggregates model stream deltas into one assistant message and keeps structured progress separate', () => {
