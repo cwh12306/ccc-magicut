@@ -19,7 +19,7 @@
 
 妙剪 Magicut 是一个面向本地视频素材的 AI 智能剪辑平台。用户可以输入创作文稿、选择素材目录和配音音色，由 AI 完成创意分析、分镜规划、素材匹配、语音合成和时间线装配，并在人工确认分镜后生成可继续编辑的视频工程。
 
-项目采用 pnpm workspace 管理 Electron 桌面应用、Next.js 服务骨架和两个共享包。LangGraph 负责编排视频创作流程，`video-project` 提供统一的工程文档契约，桌面主进程负责本地文件、模型、TTS、媒体协议和 FFmpeg 导出，React 渲染进程提供工作台、生成过程和多轨编辑器。
+项目采用 pnpm workspace 管理 Electron 桌面应用和两个共享包。LangGraph 负责编排视频创作流程，`video-project` 提供统一的工程文档契约，桌面主进程负责本地文件、模型、TTS、媒体协议和 FFmpeg 导出，React 渲染进程提供工作台、生成过程和多轨编辑器。
 
 主要功能：
 
@@ -109,21 +109,6 @@ pnpm dev:desktop
 ```text
 http://127.0.0.1:7860
 ```
-
-### 5. 启动可选服务
-
-仓库包含一个轻量 Next.js 服务骨架，目前提供首页和健康检查接口，不参与桌面端核心创作流程：
-
-```bash
-pnpm dev:server
-```
-
-| 服务              | 地址                               |
-| ----------------- | ---------------------------------- |
-| Magicut Desktop   | Electron 原生窗口                  |
-| Next.js 首页      | <http://localhost:3000>            |
-| Health API        | <http://localhost:3000/api/health> |
-| IndexTTS2（可选） | <http://127.0.0.1:7860>            |
 
 ## 系统截图
 
